@@ -11,7 +11,10 @@ import yaml
 from safetensors.torch import load_file
 from transformers import AutoProcessor
 
+from aural_one.full_audio_checkpoint import sha256
 from aural_one.model import choice_token_ids, load_adapter, load_model, logits_for_row
+
+PINNED_BASE_SHA256 = "2db5482b20d746879bb3ef79b5203e9075a2e2b98f54ec7c2f281c1477ddc550"
 
 
 def score_group(rows: list[dict]) -> dict:
@@ -50,6 +53,10 @@ def main(args: argparse.Namespace) -> None:
     if not torch.cuda.is_available():
         raise RuntimeError("Evaluate on a CUDA GPU, not on the Mac")
     config = yaml.safe_load(args.config.read_text())
+    if (config["model"]["repo"] != "google/gemma-4-E2B-it" or
+            config["model"]["revision"] != "3e22461f65e89153144f8adb70e3b8c2cc9845a7" or
+            sha256(args.model_dir / "model.safetensors") != PINNED_BASE_SHA256):
+        raise ValueError("Expected the pinned Gemma 4 E2B base weights")
     processor = AutoProcessor.from_pretrained(args.model_dir)
     model, _ = load_model(args.model_dir, config["train"], train=False)
     load_adapter(model, args.adapter_dir)
@@ -79,6 +86,7 @@ def main(args: argparse.Namespace) -> None:
                 raise ValueError("Invalid gold index: " + row["id"])
             target = row.get("target_distribution")
             if target is not None and (len(target) != len(probabilities) or
+                                       any(not math.isfinite(value) or value < 0 for value in target) or
                                        abs(sum(target) - 1) > 1e-5):
                 raise ValueError("Invalid target distribution: " + row["id"])
             results.append({"id": row["id"], "source": row.get("source", "all"),
@@ -92,6 +100,8 @@ def main(args: argparse.Namespace) -> None:
         if row["type"]:
             groups[row["source"] + "/" + row["type"]].append(row)
     report = {"manifest": str(args.manifest), "checkpoint": str(args.acoustic) if args.acoustic else None,
+              "adapter_sha256": sha256(args.adapter_dir / "adapter.safetensors"),
+              "acoustic_sha256": sha256(args.acoustic) if args.acoustic else None,
               "total": score_group(results),
               "by_group": {name: score_group(rows) for name, rows in sorted(groups.items())},
               "rows": results}

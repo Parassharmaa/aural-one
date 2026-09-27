@@ -13,6 +13,7 @@ from huggingface_hub import snapshot_download
 from safetensors.torch import load_file
 from transformers import AutoProcessor
 
+from .full_audio import select_full_audio_parameters
 from .model import choice_token_ids, load_adapter, load_model, logits_for_row
 
 DEFAULT_REPO = "blazeofchi/Aural-One-E2B"
@@ -121,15 +122,21 @@ def load_aural_one(repo_id: str = DEFAULT_REPO, *, revision: str | None = None,
     processor = AutoProcessor.from_pretrained(base_dir)
     model, _ = load_model(base_dir, train_config, train=False)
     load_adapter(model, release_dir / "adapter")
+    selected = select_full_audio_parameters(model, config["train"]["full_audio_last_layers"])
     weights = load_file(str(acoustic_path))
     parameters = dict(model.named_parameters())
-    if (sum(value.numel() for value in weights.values()) != release["acoustic_parameter_count"] or
+    expected_names = {name for name, parameter in parameters.items() if parameter.requires_grad}
+    if (set(weights) != expected_names or
+            selected["trainable_total"] != release["acoustic_parameter_count"] or
+            sum(value.numel() for value in weights.values()) != release["acoustic_parameter_count"] or
             any(name not in parameters or parameters[name].shape != value.shape or "lora_" in name
                 for name, value in weights.items())):
         raise ValueError("Acoustic weight names, shapes, or count differ")
     with torch.no_grad():
         for name, value in weights.items():
             parameters[name].copy_(value.to(parameters[name].device))
+    for parameter in model.parameters():
+        parameter.requires_grad_(False)
     model.eval()
     answer_ids = choice_token_ids(processor, config["model"]["answer_labels"])
     return AuralOne(model, processor, answer_ids)

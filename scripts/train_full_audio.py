@@ -29,6 +29,8 @@ from aural_one.full_audio_checkpoint import load_checkpoint, save_checkpoint
 from aural_one.full_audio_optim import MasterWeightAdamW
 from aural_one.model import choice_token_ids, load_adapter, load_model, logits_for_row
 
+PINNED_BASE_SHA256 = "2db5482b20d746879bb3ef79b5203e9075a2e2b98f54ec7c2f281c1477ddc550"
+
 
 def sha(path: Path) -> str:
     digest = hashlib.sha256()
@@ -111,10 +113,19 @@ def validate_inputs(args, config: dict) -> tuple[dict, dict, list[dict], dict]:
         raise ValueError("Duplicate pair IDs")
     for pair in pairs.values():
         left, right = (pools["subesco"].get(pair[key]) for key in ("left_id", "right_id"))
+        left_target = left.get("target_distribution") if left else None
+        right_target = right.get("target_distribution") if right else None
         if (left is None or right is None or left["id"] == right["id"] or
+                not isinstance(pair["left_label_index"], int) or
+                not isinstance(pair["right_label_index"], int) or
                 pair["left_label_index"] == pair["right_label_index"] or
                 left.get("perceived_consensus_index") != pair["left_label_index"] or
-                right.get("perceived_consensus_index") != pair["right_label_index"]):
+                right.get("perceived_consensus_index") != pair["right_label_index"] or
+                left_target is None or right_target is None or
+                not 0 <= pair["left_label_index"] < len(left_target) or
+                not 0 <= pair["right_label_index"] < len(right_target) or
+                left_target[pair["left_label_index"]] != 1.0 or
+                right_target[pair["right_label_index"]] != 1.0):
             raise ValueError("Invalid same-voice pair: " + pair["id"])
         if any(left.get(key) != right.get(key) for key in
                ("speaker_key", "sentence_id", "trial")):
@@ -173,6 +184,10 @@ def main(args: argparse.Namespace) -> None:
     started = time.monotonic()
     config = yaml.safe_load(args.config.read_text())
     train = config["train"]
+    if (config["model"]["repo"] != "google/gemma-4-E2B-it" or
+            config["model"]["revision"] != "3e22461f65e89153144f8adb70e3b8c2cc9845a7" or
+            sha(args.model_dir / "model.safetensors") != PINNED_BASE_SHA256):
+        raise ValueError("Expected the pinned Gemma 4 E2B base weights")
     pools, pairs, schedule, audit = validate_inputs(args, config)
     args.output.mkdir(parents=True, exist_ok=True)
     identity_file = args.output / "identity.json"
