@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aural-one"
+version = "0.1.0"
+description = "Native-audio structured decisions with Gemma 4 E2B"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+dependencies = [
+  "torch==2.13.0",
+  "transformers==5.17.0",
+  "peft==0.21.0",
+  "accelerate",
+  "huggingface-hub",
+  "safetensors",
+  "librosa",
+  "soundfile",
+  "pyyaml",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,34 @@
+model:
+  repo: google/gemma-4-E2B-it
+  revision: 3e22461f65e89153144f8adb70e3b8c2cc9845a7
+  answer_labels: [A, B, C, D, E, F, G, H]
+  inference_dtype: bfloat16
+train:
+  seed: 20260928
+  lora_rank: 16
+  lora_alpha: 32
+  audio_lora_rank: 8
+  audio_lora_alpha: 16
+  audio_lora_last_layers: 4
+  inference_dtype: bfloat16
+  gradient_checkpointing: true
+  full_audio_last_layers: 2
+  block_lr: 0.000002
+  projection_lr: 0.000005
+  weight_decay: 0.01
+  grad_clip_norm: 1.0
+  microbatches_per_update: 8
+  max_updates: 1000
+  warmup_updates: 20
+  pair_weight: 0.25
+  pair_margin: 0.5
+  pair_manifest_sha256: 9e76d3fb02b41e99131343bcea3efc9e2d71aa96876a47f9aa06fcbcbd8a4836
+  screen_eval_steps: [0, 100, 250, 500, 750, 1000]
+  full_eval_steps: [0, 1000]
+  checkpoint_steps: [50, 100, 250, 500, 750, 1000]
+  schedule_sha256: cc8c4460fa41c78a641871cc9444a7ce7b70db63313a2dc7cbb7535e5c7eed73
+  sound_screen_floor_drop: 1
+  typed_screen_floor_drop_per_type: 1
+  typed_full_floor_drop_per_type: 4
+  crema_macro_f1_floor_drop: 0.02
+  subesco_consensus_macro_f1_min_gain: 0.05

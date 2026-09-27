@@ -1,0 +1,18 @@
+{
+  "audio": "/absolute/path/to/your-audio.wav",
+  "state": {"task": "listen to the voice and the sound"},
+  "questions": {
+    "emotion": {
+      "question": "Which emotion is most evident in the speaker's voice?",
+      "options": ["angry", "disgusted", "fearful", "happy", "neutral", "sad", "surprised"]
+    },
+    "baby_cry": {
+      "question": "Is a baby crying audible?",
+      "options": ["No", "Yes"]
+    },
+    "intensity": {
+      "question": "How strong is the vocal emotion?",
+      "options": ["0", "1", "2", "3", "4"]
+    }
+  }
+}

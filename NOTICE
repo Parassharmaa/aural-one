@@ -1,0 +1,10 @@
+Aural One E2B Preview
+Copyright 2026 Paras Sharma
+
+The Aural One adapter and acoustic delta modify Google Gemma 4 E2B Instruct.
+The base model is not included in this repository and is available from
+https://huggingface.co/google/gemma-4-E2B-it under Apache License 2.0.
+
+The release code, adapter, and acoustic delta are distributed under Apache
+License 2.0. See LICENSE. The training and evaluation datasets have separate
+licenses and are not redistributed here.

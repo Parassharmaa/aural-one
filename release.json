@@ -1,0 +1,13 @@
+{
+  "format": "aural-one-e2b-preview-v1",
+  "release": "v0.1.0-preview",
+  "base_model": "google/gemma-4-E2B-it",
+  "base_revision": "3e22461f65e89153144f8adb70e3b8c2cc9845a7",
+  "base_weight_sha256": "2db5482b20d746879bb3ef79b5203e9075a2e2b98f54ec7c2f281c1477ddc550",
+  "config_sha256": "447358c5fc576d1414c4c52f9d6bb6aab7dc61a70379155bfa5a235d2cba8a88",
+  "adapter_sha256": "e2b53154b40cd67faf3c9a57226f09c187b060569a7894ee2b3630a4e88937c3",
+  "acoustic_sha256": "ef80763236b2467a886d52fba51769de4dcfbdce909dd320803b6d2d2d41db96",
+  "acoustic_parameter_count": 54294272,
+  "training_updates": 1000,
+  "seed": 20260928
+}
