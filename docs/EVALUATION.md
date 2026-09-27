@@ -4,6 +4,8 @@ This page reports the **selected Stage-B step-1,000 checkpoint**, SHA-256 `ef807
 
 ![Aural One audio evaluation chart: macro-F1 is shown separately from question accuracy](../assets/audio-evaluation.png)
 
+The chart is generated from [`audio_eval_chart_data.json`](../assets/audio_eval_chart_data.json) with `python scripts/render_audio_eval.py` (requires Matplotlib). Emotion macro-F1 and question accuracy use separate panels because their denominators and meanings differ.
+
 ## Emotion and typed decisions
 
 | Fixed evaluation | Frozen step-420 reference | Aural One preview | Scope |

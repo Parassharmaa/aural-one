@@ -17,3 +17,5 @@ The training data sources were:
 The audio files and speaker-level manifests are **not included** in either public repository. Evaluation datasets have their own terms. For source-disjoint speaker protocols, sample counts, and external checks, see [EVALUATION.md](EVALUATION.md).
 
 The published delta is SHA-256 `ef80763236b2467a886d52fba51769de4dcfbdce909dd320803b6d2d2d41db96` for the acoustic weights and `e2b53154b40cd67faf3c9a57226f09c187b060569a7894ee2b3630a4e88937c3` for the adapter. `release.json` pins the base, file hashes, update count, and seed. The base weights are downloaded directly from Google's repository.
+
+The reusable training scripts, manifest schema, and checkpoint/evaluation commands are in [FINE_TUNING.md](FINE_TUNING.md). The public schedule builder regenerated the selected 1,000-update schedule's hash exactly from the original local manifests.

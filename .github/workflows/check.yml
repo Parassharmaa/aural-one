@@ -1,0 +1,37 @@
+name: Check public release code
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  static-and-schedule:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check Python and schedule construction
+        run: |
+          python -m pip install ruff==0.16.7
+          ruff check .
+          python -m compileall -q src scripts
+          python scripts/make_toy_training_data.py /tmp/aural-toy
+          python scripts/build_schedule.py \
+            --data-root /tmp/aural-toy \
+            --output /tmp/aural-toy/schedule.jsonl \
+            --audit /tmp/aural-toy/schedule.audit.json \
+            --updates 3
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          audit = json.loads(Path('/tmp/aural-toy/schedule.audit.json').read_text())
+          assert audit['steps'] == 3
+          assert audit['examples_per_step'] == 8
+          assert audit['paired_updates'] == 1
+          assert sum(audit['source_exposures'].values()) == 24
+          PY

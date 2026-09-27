@@ -38,9 +38,9 @@ def main() -> None:
             for dimension in file.get_slice(name).get_shape():
                 size *= dimension
             count += size
-            if not (name.startswith("model.audio_tower.layers.") or
-                    name.startswith("model.audio_tower.output_proj.") or
-                    name.startswith("model.embed_audio.embedding_projection.")):
+            if not name.startswith(("model.audio_tower.layers.",
+                                    "model.audio_tower.output_proj.",
+                                    "model.embed_audio.embedding_projection.")):
                 raise ValueError(f"Unexpected acoustic weight: {name}")
     if count != meta["acoustic_parameter_count"]:
         raise ValueError("Acoustic parameter count mismatch")

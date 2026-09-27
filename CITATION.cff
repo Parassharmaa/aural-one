@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use Aural One, please cite this release and the original datasets."
+title: "Aural One E2B Preview: Native Audio to Structured Decisions"
+version: 0.1.0-preview
+date-released: 2026-09-28
+authors:
+  - family-names: Sharma
+    given-names: Paras
+repository-code: https://github.com/Parassharmaa/aural-one
+url: https://huggingface.co/blazeofchi/Aural-One-E2B
+license: Apache-2.0

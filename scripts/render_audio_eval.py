@@ -5,7 +5,6 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / "assets/audio_eval_chart_data.json").read_text())
 OUT = ROOT / "assets/audio-evaluation.png"

@@ -6,15 +6,14 @@ import tempfile
 from pathlib import Path
 
 import librosa
+import soundfile as sf
 import torch
 import yaml
-import soundfile as sf
 from huggingface_hub import snapshot_download
 from safetensors.torch import load_file
 from transformers import AutoProcessor
 
 from .model import choice_token_ids, load_adapter, load_model, logits_for_row
-
 
 DEFAULT_REPO = "blazeofchi/Aural-One-E2B"
 
@@ -47,8 +46,8 @@ class AuralOne:
         if not audio.is_file():
             raise FileNotFoundError(audio)
         duration = sf.info(audio).duration
-        if duration > 60:
-            raise ValueError("Aural One preview accepts recordings up to 60 seconds")
+        if not 0 < duration <= 60:
+            raise ValueError("Aural One preview accepts recordings over 0 and up to 60 seconds")
         if not isinstance(state, dict) or not isinstance(questions, dict) or not 1 <= len(questions) <= 32:
             raise ValueError("Provide a state object and 1..32 named questions")
         answers = {}
@@ -60,6 +59,7 @@ class AuralOne:
                 mono = waveform.mean(axis=1)
                 if rate != 16000:
                     mono = librosa.resample(mono, orig_sr=rate, target_sr=16000)
+                mono = mono[:60 * 16000]
                 paths = []
                 for offset in range(0, len(mono), 30 * 16000):
                     path = Path(directory) / f"part-{len(paths)}.wav"
@@ -73,8 +73,9 @@ class AuralOne:
                 prompt, options = spec.get("question"), spec.get("options")
                 if (not isinstance(prompt, str) or not prompt.strip() or
                         not isinstance(options, list) or not 2 <= len(options) <= 8 or
-                        any(not isinstance(option, str) or not option.strip() for option in options)):
-                    raise ValueError(f"Question {name!r} needs text and 2..8 nonempty options")
+                        any(not isinstance(option, str) or not option.strip() for option in options) or
+                        len(set(options)) != len(options)):
+                    raise ValueError(f"Question {name!r} needs text and 2..8 distinct nonempty options")
                 row = {"audio_path": paths[0], "audio_paths": paths,
                        "state": state, "question": prompt,
                        "options": options, "prompt_layout": "audio_first"}

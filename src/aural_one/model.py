@@ -7,7 +7,7 @@ from pathlib import Path
 import torch
 from peft import LoraConfig, get_peft_model_state_dict, inject_adapter_in_model
 from safetensors.torch import load_file, save_file
-from transformers import AutoModelForImageTextToText, AutoProcessor
+from transformers import AutoModelForImageTextToText
 
 
 def messages_for_row(row, data_root):

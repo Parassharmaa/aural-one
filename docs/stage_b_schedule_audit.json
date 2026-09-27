@@ -1,0 +1,31 @@
+{
+  "seed": 20260928,
+  "steps": 1000,
+  "examples_per_step": 8,
+  "plan_sha256": "cc8c4460fa41c78a641871cc9444a7ce7b70db63313a2dc7cbb7535e5c7eed73",
+  "pair_manifest_sha256": "9e76d3fb02b41e99131343bcea3efc9e2d71aa96876a47f9aa06fcbcbd8a4836",
+  "source_exposures": {
+    "crema": 3200,
+    "subesco": 2400,
+    "typed": 2400
+  },
+  "crema_perceived_label_exposures": {
+    "angry": 534,
+    "disgusted": 534,
+    "fearful": 533,
+    "happy": 533,
+    "neutral": 533,
+    "sad": 533
+  },
+  "crema_actor_coverage": 79,
+  "paired_updates": 500,
+  "pair_unique_ids": 238,
+  "pair_speakers": 14,
+  "typed_type_exposures": {
+    "choice": 800,
+    "noul": 800,
+    "score": 800
+  },
+  "development_examples_exposed": 0,
+  "reserved_test_examples_exposed": 0
+}
