@@ -2,6 +2,8 @@
 
 This page reports the **selected Stage-B step-1,000 checkpoint**, SHA-256 `ef80763236b2467a886d52fba51769de4dcfbdce909dd320803b6d2d2d41db96`. Scores use different datasets, splits, and metrics; none is an overall System One score. One training seed was used. No separate classifier is used at inference.
 
+![Aural One audio evaluation chart: macro-F1 is shown separately from question accuracy](../assets/audio-evaluation.png)
+
 ## Emotion and typed decisions
 
 | Fixed evaluation | Frozen step-420 reference | Aural One preview | Scope |

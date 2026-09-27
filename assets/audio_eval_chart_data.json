@@ -1,0 +1,14 @@
+{
+  "emotion_macro_f1": [
+    {"label": "SUBESCO development", "scope": "700 clips · 2 unseen speakers", "reference": 0.134, "aural_one": 0.295},
+    {"label": "CREMA-D development", "scope": "445 clips · unseen actors", "reference": 0.361, "aural_one": 0.391},
+    {"label": "SUBESCO reserved test", "scope": "1,012 consensus clips · 4 unseen speakers", "reference": null, "aural_one": 0.344},
+    {"label": "German EmoDB", "scope": "195 clips · previously opened", "reference": 0.078, "aural_one": 0.102},
+    {"label": "Italian Emozionalmente", "scope": "262 unanimous clips · development actors", "reference": 0.232, "aural_one": 0.203}
+  ],
+  "audio_question_accuracy": [
+    {"label": "Draft 60s speech questions", "scope": "6 recordings · development", "correct": 14, "total": 18},
+    {"label": "Initial sound screen", "scope": "24 clips · mixed recording sources", "correct": 14, "total": 24},
+    {"label": "Natural 45–60s speech", "scope": "39 distinct held-out recordings", "correct": 18, "total": 39}
+  ]
+}

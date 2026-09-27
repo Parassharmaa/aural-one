@@ -2,7 +2,7 @@
 
 **Native audio in, structured decisions out.** Aural One is an early Gemma 4 E2B preview for questions that depend on what a recording actually sounds like. Supply audio, a written state, and named questions; the model scores the options for each question in a single native-audio model. It does not require a speech-to-text or external sound classifier in its inference path.
 
-[Model weights and card](https://huggingface.co/blazeofchi/Aural-One-E2B) · [Evaluation details](docs/EVALUATION.md) · [Training and data](docs/TRAINING.md) · [Release validation](docs/RELEASE_VALIDATION.md)
+[Model weights and card](https://huggingface.co/blazeofchi/Aural-One-E2B) · [Evaluation details](docs/EVALUATION.md) · [Fine-tuning guide](docs/FINE_TUNING.md) · [Training and data](docs/TRAINING.md) · [Release validation](docs/RELEASE_VALIDATION.md)
 
 ## What the preview does
 
@@ -23,6 +23,8 @@
 
 These are different datasets and scopes, not one combined benchmark score. [The complete evaluation table](docs/EVALUATION.md) includes other languages, longer natural speech, sound events, calibration, client latency, throughput, and cost. This is an **early research release**; performance is uneven across sounds and emotions, and the sub-second result above is inside the pod rather than Tokyo-to-server latency.
 
+![Aural One audio evaluation chart: speech emotion macro-F1 by dataset and separate audio-question correct counts](assets/audio-evaluation.png)
+
 ## Run it
 
 Use Python 3.12 and an NVIDIA GPU. The tested environment used PyTorch 2.13.0 with CUDA 13.0, Transformers 5.17.0, and PEFT 0.21.0. Install a PyTorch build appropriate for your GPU first, then:
@@ -39,10 +41,12 @@ The returned `probabilities` are normalized **over the options supplied in that 
 ## Repository layout
 
 ```text
-src/aural_one/       pinned model loader and choice scoring
+src/aural_one/       pinned loader, choice scoring and acoustic optimizer
 scripts/predict.py   JSON command-line example
+scripts/train_full_audio.py, build_schedule.py, evaluate.py   training and evaluation
 examples/            request shape
 docs/EVALUATION.md   measurements and their scopes
+docs/FINE_TUNING.md  data schema and reproducible recipe
 docs/TRAINING.md     training recipe, data and attribution
 release.json         checkpoint identity and hashes
 ```
