@@ -10,7 +10,9 @@ The training data sources were:
 |---|---|---|
 | [CREMA-D](https://github.com/CheyneyComputerScience/CREMA-D) | Crowd-voted acted English emotion audio | Dataset: ODbL 1.0; individual contents: DBCL 1.0 |
 | [SUBESCO](https://zenodo.org/records/4526477) | Listener-voted acted Bangla emotion audio | CC BY 4.0 |
-| Project typed spoken-question/intent examples | Structured-choice retention | Project research examples; no raw examples are included in this release |
+| [HeySQuAD Human](https://huggingface.co/datasets/yijingwu/HeySQuAD_human) | Human-spoken question examples for typed decisions | CC BY 4.0 |
+| [MInDS-14](https://huggingface.co/datasets/PolyAI/minds14) | Spoken intent examples for typed decisions | CC BY 4.0 |
+| Original synthetic speech examples | Structured-choice retention | Project-created examples; no raw examples are included in this release |
 
 The audio files and speaker-level manifests are **not included** in either public repository. Evaluation datasets have their own terms. For source-disjoint speaker protocols, sample counts, and external checks, see [EVALUATION.md](EVALUATION.md).
 

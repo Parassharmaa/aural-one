@@ -47,7 +47,7 @@ docs/TRAINING.md     training recipe, data and attribution
 release.json         checkpoint identity and hashes
 ```
 
-The model weights are on Hugging Face. No training or evaluation audio is redistributed. Aural One is independent of TypeSafe AI and Jev.
+The model weights are on Hugging Face. No training or evaluation audio is redistributed.
 
 ## License
 
