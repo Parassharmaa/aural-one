@@ -1,0 +1,10 @@
+# v0.1.0 preview validation
+
+The public release files were checked before publication and again through an anonymous download from the public [Hugging Face model repo](https://huggingface.co/blazeofchi/Aural-One-E2B).
+
+- The published acoustic file has SHA-256 `ef80763236b2467a886d52fba51769de4dcfbdce909dd320803b6d2d2d41db96`, **47 tensors**, and **54,294,272 parameters**. The adapter SHA-256 is `e2b53154b40cd67faf3c9a57226f09c187b060569a7894ee2b3630a4e88937c3`. The base is pinned to `google/gemma-4-E2B-it@3e22461f65e89153144f8adb70e3b8c2cc9845a7` and checked by the loader.
+- The release loader ran on an **NVIDIA RTX PRO 6000 Blackwell Server Edition MIG 1g.24gb** with **PyTorch 2.13.0+cu130**, Transformers 5.17.0, and PEFT 0.21.0. It returned valid choice distributions for three named questions on a short CREMA-D speech sample and a synthetic 58-second two-chunk input. No sample audio is bundled.
+- The public-Hub load gave **exactly the same three answer distributions** as the same release files loaded from a local staging directory. PyTorch reported **9,773.9 MiB allocated**. The simple sequential loader took 1.778 seconds to score three short-input questions on the public-Hub repeat; the synthetic 58-second local-file smoke took 3.669 seconds for three questions. These are functional checks under different cache conditions, not warm-service latency measurements.
+- The GPU pod was deleted after testing. The optimized shared-audio HTTP timings in [EVALUATION.md](EVALUATION.md) come from a separate staged serving path and should not be attributed to this reference loader.
+
+The GitHub repository contains only code, docs, examples, configuration, and hashes. Hugging Face contains the adapter and acoustic delta plus the same documentation. Neither contains training/evaluation audio, the base model weights, optimizer state, credentials, or private row-level predictions.
