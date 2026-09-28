@@ -1,5 +1,7 @@
 # Aural One
 
+https://github.com/user-attachments/assets/87c3146e-f9f3-4cc4-977e-5860472fa4cb
+
 **Native audio in, structured decisions out.** Aural One is an early Gemma 4 E2B preview for questions that depend on what a recording actually sounds like. Supply audio, a written state, and named questions; the model scores the options for each question in a single native-audio model. It does not require a speech-to-text or external sound classifier in its inference path.
 
 [Model weights and card](https://huggingface.co/blazeofchi/Aural-One-E2B) · [Evaluation details](docs/EVALUATION.md) · [Fine-tuning guide](docs/FINE_TUNING.md) · [Training and data](docs/TRAINING.md) · [Release checklist](docs/RELEASE_CHECKLIST.md)
